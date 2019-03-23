@@ -20,8 +20,9 @@ const TableController = () => {
   }
 
   const getUser = (req, res, next) => {
-    var sql = "select * from user where id = ?"
-    var params = [req.params.id]
+    const sql = "select * from user where id = ?"
+    const params = [req.params.id]
+    console.log(req.params)
     db.get(sql, params, (err, row) => {
       if (err) {
         res.status(400).json({ "error": err.message });
