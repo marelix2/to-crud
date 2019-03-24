@@ -1,0 +1,70 @@
+informacjami:
+* nazwiska, imiona, adresy mailowe oraz numery grup członków zespołu,
+* temat projektu,
+* spis technologii, które będą używane (systemów, języków programowania, najważniejszych bibliotek, frameworków, itp.)
+* realistyczny plan pracy wraz z listą funkcjonalności, które zostaną zaimplementowane,
+* podział prac w zespole,
+* tematy prac inżynierskich i (jeżeli są znane, to również) magisterskich studentów realizujących projekt.
+    Etap kolejne powinny zawierać postępy prac związanych projektem.
+
+
+ nazwisko, imie, adres mailowy oraz numer grupy:
+	
+	Rusinek Michał
+	marelix2@gmail.com
+	2ID22A 
+
+ temat projektu: 
+
+	38. REST Web Services CRUD
+	Automatyczne generowanie na podstawie metadanych pobranych z bazy danych usług REST Web Services pozwalających na tworzenie, odczytywanie, aktualizację i kasowanie danych (CRUD). Należy 		opracować stronę internetową pozwalającą na uruchamianie tych usług.
+
+
+ spis technologii, które będą używane:
+
+	-backend: 
+	  Node.js (środowisko uruchomieniowe)
+	  Express.js (framework do obsługi zagadnień związanych z komunikacją)
+	  http-server ( bliblioteka wspierająca protokół http)
+	  express-routes-mapper ( konfiguracja ścieżek, lepsza współpraca z protokołem http)
+	  sqlite3 (wsparcie dla bazy danych sqlite)
+
+	-baza danych: 
+	  Sqlite3 (relacyjna baza danych)
+
+	-frontend: 
+	  JavaScript (ES6+)
+	  React.js v16.8 ( framework js)
+	  lodash (biblioteka do ułatwienia pracy nad obiektami, tablicami)
+	  antd ( framework ze stylami)
+	  scss ( preporcesor styli css)
+	  axios ( bilbioteka wspierająca proktokuł http)
+
+ realistyczny plan pracy wraz z listą funkcjonalności, które zostaną zaimplementowane: 
+
+	-backend: 
+	  wystawienie api do komunikacji z frontendem
+	  wsparcie dla relacyjnej bazy danych
+	  obsługa tabel z wykożystaniem kontrolerów
+	  obsługa dodania, odczytu, aktualizacji i usuwania danych (crud)
+	  implelentacja logowania oraz rejestracji użytkowników
+
+	-frontend: 
+	  Implementacja paneli do prezetacji danych
+	  wizualna prezentacja obsługi dodania, odczytu, aktualizacji i usuwania danych (crud) za pomocą odpiwednich komponentów
+	  obsułga logwania i rejestracji
+
+
+ podział prac w zespole
+	
+	-frontend i backend: Michał Rusinek
+
+ 
+ temat pracy inżynierskiej:
+	
+	"Model oraz implementacjia serwisu do skupu i handlu danymi" 	  	  
+
+ 
+
+
+	
