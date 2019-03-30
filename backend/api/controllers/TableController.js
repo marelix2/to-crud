@@ -1,11 +1,14 @@
 const { db } = require('./../../config/database.js')
-
+const { getTables} = require('./../services/TableService')
 
 const TableController = () => {
 
   const getUsers = (req, res, next) => {
+
     const sql = "select * from user"
     const params = []
+
+   getTables();
 
     db.all(sql, params, (err, rows) => {
       if (err) {

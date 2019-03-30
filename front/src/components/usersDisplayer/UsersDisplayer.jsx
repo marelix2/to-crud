@@ -23,15 +23,18 @@ class UsersDisplayer extends Component {
 
   componentDidMount() {
     this.fetchUsers();
-    this.fetchUser(1);
+   // this.fetchUser(1);
   }
 
 
   render() {
     const { users, user } = this.state
+
+    console.log(users)
     return (
       <>
         {JSON.stringify(users, null, 4)}
+        
         <br/>
         {JSON.stringify(user)}
       </>

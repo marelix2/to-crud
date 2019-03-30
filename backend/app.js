@@ -31,7 +31,11 @@ app.use((req, res, next) => {
 
 app.use(`${config.apiPath}/public`, mappedOpenRoutes);
 
+const {getTables} = require('./api/services/TableService')
+
 server.listen(config.port, () => {
+
+  getTables();
 
   if(!config.migrate){
     dropTable();

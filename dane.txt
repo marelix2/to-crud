@@ -68,3 +68,6 @@ informacjami:
 
 
 	
+
+
+aplikacja ma wyciągnąć wszystkie informacje o tabeli. na początku nie wiem jaka tam jest tabela, mam wyciągnąc info o niej, i na jej podstawie stworzyć zapytania.

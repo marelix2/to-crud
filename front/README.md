@@ -14,3 +14,7 @@ In the project directory, you can run:
 https://developerhowto.com/2018/12/29/build-a-rest-api-with-node-js-and-express-js/
 
 
+
+fetching metadata: 
+https://dba.stackexchange.com/questions/169246/how-to-read-metadata-from-sqlite-database/169253
+
