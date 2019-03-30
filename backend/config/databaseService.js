@@ -4,13 +4,17 @@ const dbService = (environment, migrate) => {
 
   const authenticateDB = () => database.authenticate();
 
-  const dropDB = () => database.drop();
+  const dropDB = () => {
+    database.drop();
+  };
 
   const syncDB = () => database.sync();
 
   const successfulDBStart = () => {}
 
-  const errorDBStart = (err) => {}
+  const errorDBStart = (err) => {
+    console.log(err);
+  }
 
   const wrongEnvironment = () => {
     return process.exit(1);
@@ -26,6 +30,7 @@ const dbService = (environment, migrate) => {
   };
 
   const startMigrateFalse = async () => {
+    console.log('drop');
     try {
       await dropDB();
       await syncDB();
