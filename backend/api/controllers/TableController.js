@@ -7,20 +7,30 @@ const TableController = () => {
     const tableNames = await getTableNames();
 
     try {
-      let queryString = `PRAGMA TABLE_INFO(${tableNames[0]})`
+      let tables = [];
+      for(let i = 0 ; i <tableNames.length ; i++ ) {
+      const queryString = `PRAGMA TABLE_INFO(${tableNames[i]})`
+       const a = await sequelize.query(queryString).then((response) => {
+          const columns = Object.keys(response).map((col) => {
+            return {
+              name: col,
+              type: response[col].type
+            }
 
-      const tables = await sequelize.query(queryString).then((response) => {
-        console.log(response);
-      });
-
+          })
+          return {
+            tableName: tableNames[0],
+            columns: columns
+          }
+        })
+        tables.push(a);
+      }
       return res.status(OK).json({ tables });
     } catch (error) {
       return res.status(INTERNAL_SERVER_ERROR)
         .json({ msg:'Error while connecting to database (getTables, TableController)'});
     }
 
-    console.log(aa);
-    //sequelize.query("PRAGMA TABLE_INFO(lorem);").then(res => console.log(res))
   }
 
   getTableNames = async () => {

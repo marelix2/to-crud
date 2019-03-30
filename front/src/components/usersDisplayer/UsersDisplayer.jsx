@@ -14,7 +14,6 @@ class UsersDisplayer extends Component {
 
   fetchTables = () => {
     axios.get(API.GET_USERS).then((response) => {
-      console.log(response)
       return this.setState({ tables: response.data.tables })
     });
   }
