@@ -1,6 +1,5 @@
 const publicRoutes = {
-  'GET /users': 'TableController.getUsers',
-  'GET /user/:id' : 'TableController.getUser'
+  'GET /users': 'UserController.getUsers'
 }
 
 

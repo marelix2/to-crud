@@ -6,9 +6,10 @@ const http = require('http');
 const mapRoutes = require('express-routes-mapper');
 const cors = require('cors');
 const config = require('./config/');
-const {createTable, insertInitData,dropTable} = require('./config/database');
 
 const environment = 'development';
+const dbService = require('./config/databaseService')
+
 
 console.log(`\n\n Server is running on: localhost:${config.port} \n\n`);
 
@@ -31,13 +32,11 @@ app.use((req, res, next) => {
 
 app.use(`${config.apiPath}/public`, mappedOpenRoutes);
 
+const DB = dbService(environment, config.migrate).start();
+
 server.listen(config.port, () => {
 
-  if(!config.migrate){
-    dropTable();
-    createTable();
-    insertInitData();
-  }
+  return DB;
 });
 
 module.exports = app;
