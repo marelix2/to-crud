@@ -8,13 +8,14 @@ class UsersDisplayer extends Component {
     super(props);
 
     this.state = {
-      users: [],
-      user: null
+      tables: []
     }
   }
 
-  fetchUsers = () => {
-    axios.get(API.GET_USERS).then((response) => this.setState({ users: response.data.data }))
+  fetchTables = () => {
+    axios.get(API.GET_USERS).then((response) => {
+      return this.setState({ tables: response.data.tables })
+    });
   }
 
   fetchUser = (id) => {
@@ -22,18 +23,18 @@ class UsersDisplayer extends Component {
   }
 
   componentDidMount() {
-    this.fetchUsers();
-    this.fetchUser(1);
+    this.fetchTables();
+    //this.fetchUser(1);
   }
 
 
   render() {
-    const { users, user } = this.state
+    const { tables } = this.state
+    console.log(tables)
     return (
       <>
-        {JSON.stringify(users, null, 4)}
+        {JSON.stringify(tables)}
         <br/>
-        {JSON.stringify(user)}
       </>
     );
   }

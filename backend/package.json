@@ -9,12 +9,14 @@
     "nodemon": "nodemon --exec npm run dev",
     "ustart": "npm run unodemon",
     "unodemon": "sudo nodemon --exec npm run dev",
+    "insert-table": "node scripts/createTables.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Michal R.",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "chance": "^1.0.18",
     "cookie-parser": "~1.4.3",
     "core-js": "^2.5.7",
     "cors": "^2.8.4",
@@ -27,6 +29,7 @@
     "md5": "^2.2.1",
     "morgan": "~1.9.0",
     "mysql": "^2.16.0",
+    "randomstring": "^1.1.5",
     "sequelize": "^5.2.7",
     "sqlite3": "^4.0.6",
     "uniqid": "^5.0.3"

@@ -35,7 +35,6 @@ app.use(`${config.apiPath}/public`, mappedOpenRoutes);
 const DB = dbService(environment, config.migrate).start();
 
 server.listen(config.port, () => {
-
   return DB;
 });
 
