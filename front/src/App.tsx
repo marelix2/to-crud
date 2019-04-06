@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import UsersDisplayer from './components/usersDisplayer/UsersDisplayer';
-
+import TablesDisplayerPage from './containers/TablesDisplayerPage/TablesDisplayerPage';
+import './styles/styles.scss'
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <UsersDisplayer/>
+       <TablesDisplayerPage/>
       </div>
     );
   }

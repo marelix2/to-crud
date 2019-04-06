@@ -1,0 +1,29 @@
+@import "./../../styles/colors.scss";
+
+.tile-col {
+  font-size: .9em;
+  padding-left: 1em;
+}
+
+.tile-header {
+  color: #000;
+}
+
+.ant-card:hover {
+  cursor: pointer;
+}
+
+.ant-card-head {
+  padding: 0 !important;
+
+  .ant-card-head-wrapper {
+  
+    background: $accent_1 ;
+    color: $text_color;
+    padding: 0 12px;
+  }
+}
+
+
+
+
