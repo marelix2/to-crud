@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import UsersDisplayer from './components/usersDisplayer/UsersDisplayer';
-
+import TablesDisplayer from './components/TablesDisplayer/TablesDisplayer';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <UsersDisplayer/>
+       <TablesDisplayer/>
       </div>
     );
   }
