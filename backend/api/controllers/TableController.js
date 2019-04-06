@@ -19,7 +19,7 @@ const TableController = () => {
 
           })
           return {
-            tableName: tableNames[0],
+            tableName: tableNames[i],
             columns: columns
           }
         })
