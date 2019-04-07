@@ -5,14 +5,12 @@ import axios from '../../AxiosApi'
 import Tile from './../../components/Tile/Tile'
 import { Col, Row, Divider } from 'antd';
 import ToDivider from '../../components/ToDivider/ToDivider';
+import { RouteComponentProps } from 'react-router-dom';
 
-interface State {
-  tables: any;
-}
 
-class TablesDisplayerPage extends Component<{}, State> {
+class TablesDisplayerPage extends Component<ITablesDisplayerPageProps, ITablesDisplayerPageState> {
 
-  constructor(props: {}) {
+  constructor(props: ITablesDisplayerPageProps) {
     super(props);
     this.state = {
       tables: []
@@ -29,8 +27,8 @@ class TablesDisplayerPage extends Component<{}, State> {
     })
   }
 
-  handleTileClicked = (columnName: string) => {
-    console.log('przechodze do widoku dla :', columnName)
+  handleTileClicked = (tableName: string) => {
+    this.props.history.push(`/${tableName}`)
   }
 
 
@@ -58,10 +56,17 @@ class TablesDisplayerPage extends Component<{}, State> {
         <Row>
           {tiles}
         </Row>
-
       </>
     )
   }
+}
+
+interface ITablesDisplayerPageState {
+  tables: Array<any>;
+}
+
+
+interface ITablesDisplayerPageProps extends RouteComponentProps<{table : string}> {
 }
 
 export default TablesDisplayerPage;

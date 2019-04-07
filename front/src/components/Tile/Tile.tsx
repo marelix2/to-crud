@@ -2,18 +2,7 @@ import React from 'react';
 import { Card } from 'antd';
 import './Tile.scss'
 
-interface Column {
-  name: string;
-  type: string;
-}
-
-interface TileProps {
-  name: string;
-  columns: [Column];
-  clicked: any;
-}
-
-const Tile = (props: TileProps) => {
+const Tile = (props: ITileProps) => {
 
   const { name, columns, clicked } = props;
 
@@ -41,5 +30,16 @@ const Tile = (props: TileProps) => {
   );
 
 };
+
+interface Column {
+  name: string;
+  type: string;
+}
+
+interface ITileProps {
+  name: string;
+  columns: [Column];
+  clicked: any;
+}
 
 export default Tile;

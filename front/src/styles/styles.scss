@@ -7,3 +7,11 @@
 }
 
 
+.ant-btn-primary {
+  background: $accent_1;
+  border: 1px solid $accent_1;
+}
+
+.ant-btn-primary:hover {
+  background: $accent_2;
+}
