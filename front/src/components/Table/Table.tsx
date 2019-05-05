@@ -107,7 +107,7 @@ class Table extends Component<TableProps, TableState> {
           </Col>
         </Row>
         <Row type='flex' justify='end' className='table-pagination'>
-          <Col span='8'>
+          <Col span={8}>
             {pagination}
           </Col>
         </Row>

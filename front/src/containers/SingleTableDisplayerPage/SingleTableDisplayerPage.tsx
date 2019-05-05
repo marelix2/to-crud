@@ -3,6 +3,7 @@ import { Button, Icon } from 'antd';
 import { RouteComponentProps } from 'react-router-dom';
 import ToDivider from '../../components/ToDivider/ToDivider';
 import Table from '../../components/Table/Table';
+import EditRowPage from '../EditRowPage/EditRowPage';
 import './SingleTableDisplayerPage.scss';
 
 export default class SingleTableDisplayerPage extends Component<SingleTableDisplayerPageProps, SingleTableDisplayerPageState> {
@@ -10,7 +11,7 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
   constructor(props: SingleTableDisplayerPageProps) {
     super(props)
     this.state = {
-      tableName: this.props.location.pathname.slice(1, this.props.location.pathname.length - 1)
+      tableName: this.props.location.pathname.slice(1, this.props.location.pathname.length)
     }
   }
 
@@ -25,10 +26,10 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
     const { tableName } = this.state;
 
     const headers = [
-      { name: 'cos', type: 'cos' },
-      { name: 'cos', type: 'cos' },
-      { name: 'cos', type: 'cos' },
-      { name: 'cos', type: 'cos' }]
+      { name: 'co', type: 'cos' },
+      { name: 'tam', type: 'cos' },
+      { name: 'kolego', type: 'cos' },
+      { name: 'jak sie masz', type: 'cos' }]
 
     const rows = [[
       { name: 'cos2', type: 'cos' },
@@ -94,6 +95,7 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
 
     return (
       <>
+        
         <Button
           type='primary'
           onClick={this.handleBack}
@@ -102,6 +104,7 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
           <Icon type="left" />
           Powrót
         </Button>
+        <EditRowPage row={rows[0]} headers={headers} tableName ={tableName}/>
         <ToDivider title={`Tabela: ${tableName}`} />
         <Table rows={rows} headers={headers} />
       </>
