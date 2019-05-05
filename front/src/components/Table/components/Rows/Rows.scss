@@ -1,0 +1,17 @@
+@import "./../../../../styles/colors.scss";
+
+.row-item {
+
+  .col-item {
+    padding: 0.6em;
+    border-bottom: 1px solid $frame_color;
+  }
+  .col-item:first-child {
+    border-left: none;
+  }
+
+  .col-item:nth-child(2n){
+    background: $alt_background;
+  }
+
+}

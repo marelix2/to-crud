@@ -2,12 +2,7 @@ import React from 'react';
 import { Divider } from 'antd';
 import './ToDivider.scss';
 
-interface dividerProps {
-  title: string;
-  otherProps?: any;
-}
-
-const ToDivider = (props: dividerProps) => {
+const ToDivider = (props: IDividerProps) => {
   const { title, otherProps } = props
   return (
     <div className="divider">
@@ -15,5 +10,10 @@ const ToDivider = (props: dividerProps) => {
     </div>
   );
 };
+
+interface IDividerProps {
+  title: string;
+  otherProps?: any;
+}
 
 export default ToDivider;
