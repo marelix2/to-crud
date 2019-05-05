@@ -1,0 +1,22 @@
+@import './../../../../styles/colors.scss';
+
+
+.field-header {
+  padding: .7em;
+  border: 1px solid $accent_3;
+  border-left: none;
+  border-right: 1px solid $frame_color;
+  color: $text_color;
+  background: $accent_1;
+  font-size: 1.1em;
+}
+
+.field-header:first-child {
+  border-top-left-radius: 5px;
+  border-left: 1px solid $accent_3;
+}
+
+.field-header:last-child {
+  border-top-right-radius: 5px;
+  border-right: 1px solid $accent_3;
+}

@@ -5,14 +5,16 @@ import ToDivider from '../../components/ToDivider/ToDivider';
 import Table from '../../components/Table/Table';
 import './SingleTableDisplayerPage.scss';
 
-export default class SingleTableDisplayerPage extends Component<ISingleTableDisplayerPageProps, ISingleTableDisplayerPageState> {
+export default class SingleTableDisplayerPage extends Component<SingleTableDisplayerPageProps, SingleTableDisplayerPageState> {
 
-  constructor(props: ISingleTableDisplayerPageProps) {
+  constructor(props: SingleTableDisplayerPageProps) {
     super(props)
     this.state = {
       tableName: this.props.location.pathname.slice(1, this.props.location.pathname.length - 1)
     }
   }
+
+
 
   handleBack = () => {
     this.props.history.push('/')
@@ -22,28 +24,95 @@ export default class SingleTableDisplayerPage extends Component<ISingleTableDisp
 
     const { tableName } = this.state;
 
+    const headers = [
+      { name: 'cos', type: 'cos' },
+      { name: 'cos', type: 'cos' },
+      { name: 'cos', type: 'cos' },
+      { name: 'cos', type: 'cos' }]
+
+    const rows = [[
+      { name: 'cos2', type: 'cos' },
+      { name: 'cos', type: 'cos' },
+      { name: 'cos', type: 'cos' },
+      { name: 'cos', type: 'cos' }],
+    [
+      { name: 'cos3', type: 'cos' },
+      { name: 'co1', type: 'cos' },
+      { name: 'cos', type: 'cos' },
+      { name: 'cos', type: 'cos' }],
+    [
+      { name: 'cos4', type: 'cos' },
+      { name: 'co1', type: 'cos' },
+      { name: 'cos', type: 'cos' },
+      { name: 'cos', type: 'cos' }],
+    [
+      { name: 'cos5', type: 'cos' },
+      { name: 'co1', type: 'cos' },
+      { name: 'cos', type: 'cos' },
+      { name: 'cos', type: 'cos' }],
+    [
+      { name: 'cos6', type: 'cos' },
+      { name: 'co1', type: 'cos' },
+      { name: 'cos', type: 'cos' },
+      { name: 'cos', type: 'cos' }],
+    [
+      { name: 'cos7', type: 'cos' },
+      { name: 'co1', type: 'cos' },
+      { name: 'cos', type: 'cos' },
+      { name: 'cos', type: 'cos' }],
+    [
+      { name: 'cos8', type: 'cos' },
+      { name: 'co1', type: 'cos' },
+      { name: 'cos', type: 'cos' },
+      { name: 'cos', type: 'cos' }],
+    [
+      { name: 'cos9', type: 'cos' },
+      { name: 'co1', type: 'cos' },
+      { name: 'cos', type: 'cos' },
+      { name: 'cos', type: 'cos' }],
+    [
+      { name: 'cos10', type: 'cos' },
+      { name: 'co1', type: 'cos' },
+      { name: 'cos', type: 'cos' },
+      { name: 'cos', type: 'cos' }],
+    [
+      { name: 'cos11', type: 'cos' },
+      { name: 'co1', type: 'cos' },
+      { name: 'cos', type: 'cos' },
+      { name: 'cos', type: 'cos' }],
+    [
+      { name: 'cos12', type: 'cos' },
+      { name: 'co1', type: 'cos' },
+      { name: 'cos', type: 'cos' },
+      { name: 'cos', type: 'cos' }],
+    [
+      { name: 'cos13', type: 'cos' },
+      { name: 'kocham', type: 'cos' },
+      { name: 'cos', type: 'cos' },
+      { name: 'cos', type: 'cos' }]]
+
+
     return (
       <>
         <Button
           type='primary'
           onClick={this.handleBack}
           className='back-btn'
-        > 
-        <Icon type="left" />
+        >
+          <Icon type="left" />
           Powrót
         </Button>
         <ToDivider title={`Tabela: ${tableName}`} />
-        <Table />
+        <Table rows={rows} headers={headers} />
       </>
     )
   }
 }
 
-interface ISingleTableDisplayerPageProps extends RouteComponentProps<any> {
+interface SingleTableDisplayerPageProps extends RouteComponentProps<any> {
 
 }
 
-
-interface ISingleTableDisplayerPageState {
+interface SingleTableDisplayerPageState {
   tableName: string | undefined;
 }

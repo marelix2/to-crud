@@ -14,7 +14,8 @@ const TableController = () => {
           const columns = Object.keys(response).map((col) => {
             return {
               name: col,
-              type: response[col].type
+              type: response[col].type,
+              isPrimary: response[col].primaryKey
             }
 
           })
