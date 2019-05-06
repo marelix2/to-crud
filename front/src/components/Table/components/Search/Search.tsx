@@ -7,7 +7,7 @@ const Search : FunctionComponent<SearchProps> = (props) => {
   return (
     <>
       <Row style={{ marginBottom: '0.5em' }}>
-        <Col span={8}>
+        <Col>
           <SearchTable
             placeholder={props.placeholder}
             enterButton={true}

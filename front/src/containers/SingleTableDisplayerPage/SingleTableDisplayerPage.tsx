@@ -4,6 +4,9 @@ import { RouteComponentProps } from 'react-router-dom';
 import ToDivider from '../../components/ToDivider/ToDivider';
 import Table from '../../components/Table/Table';
 import EditRowPage from '../EditRowPage/EditRowPage';
+import axios from '../../AxiosApi'
+import API from '../../endpoints'
+
 import './SingleTableDisplayerPage.scss';
 
 export default class SingleTableDisplayerPage extends Component<SingleTableDisplayerPageProps, SingleTableDisplayerPageState> {
@@ -11,10 +14,42 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
   constructor(props: SingleTableDisplayerPageProps) {
     super(props)
     this.state = {
-      tableName: this.props.location.pathname.slice(1, this.props.location.pathname.length)
+      tableName: this.props.location.pathname.slice(1, this.props.location.pathname.length),
+      headers:[],
+      rows: []
     }
   }
 
+  componentDidMount() {
+    this.fetchTableHeaders()
+    this.fetchTableData()
+  }
+
+  fetchTableHeaders = () => {
+    axios.put(API.GET_TABLE_HEADERS, {tableName : this.state.tableName}).then((response : any) => {
+      const headers = response.data.headers.map((header: any) => {
+        return {
+          name: header.name,
+          type: header.type
+        }
+      })
+        this.setState({headers})
+    })
+  }
+
+  fetchTableData = () => {
+    axios.put(API.GET_TABLE_ROWS, {tableName : this.state.tableName}).then((response : any) => {
+      const rows = response.data.rows.map((r: any) => {
+        const keys = Object.keys(r);
+        const arr= [];
+        for(let i = 0; i < keys.length ; i++){
+          arr.push({name: r[keys[i]], type: typeof r[keys[i]]})
+        }
+        return arr;
+      })
+      this.setState({rows})
+      })
+  }
 
 
   handleBack = () => {
@@ -23,90 +58,20 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
 
   render() {
 
-    const { tableName } = this.state;
-
-    const headers = [
-      { name: 'co', type: 'cos' },
-      { name: 'tam', type: 'cos' },
-      { name: 'kolego', type: 'cos' },
-      { name: 'jak sie masz', type: 'cos' }]
-
-    const rows = [[
-      { name: 'cos2', type: 'cos' },
-      { name: 'cos', type: 'cos' },
-      { name: 'cos', type: 'cos' },
-      { name: 'cos', type: 'cos' }],
-    [
-      { name: 'cos3', type: 'cos' },
-      { name: 'co1', type: 'cos' },
-      { name: 'cos', type: 'cos' },
-      { name: 'cos', type: 'cos' }],
-    [
-      { name: 'cos4', type: 'cos' },
-      { name: 'co1', type: 'cos' },
-      { name: 'cos', type: 'cos' },
-      { name: 'cos', type: 'cos' }],
-    [
-      { name: 'cos5', type: 'cos' },
-      { name: 'co1', type: 'cos' },
-      { name: 'cos', type: 'cos' },
-      { name: 'cos', type: 'cos' }],
-    [
-      { name: 'cos6', type: 'cos' },
-      { name: 'co1', type: 'cos' },
-      { name: 'cos', type: 'cos' },
-      { name: 'cos', type: 'cos' }],
-    [
-      { name: 'cos7', type: 'cos' },
-      { name: 'co1', type: 'cos' },
-      { name: 'cos', type: 'cos' },
-      { name: 'cos', type: 'cos' }],
-    [
-      { name: 'cos8', type: 'cos' },
-      { name: 'co1', type: 'cos' },
-      { name: 'cos', type: 'cos' },
-      { name: 'cos', type: 'cos' }],
-    [
-      { name: 'cos9', type: 'cos' },
-      { name: 'co1', type: 'cos' },
-      { name: 'cos', type: 'cos' },
-      { name: 'cos', type: 'cos' }],
-    [
-      { name: 'cos10', type: 'cos' },
-      { name: 'co1', type: 'cos' },
-      { name: 'cos', type: 'cos' },
-      { name: 'cos', type: 'cos' }],
-    [
-      { name: 'cos11', type: 'cos' },
-      { name: 'co1', type: 'cos' },
-      { name: 'cos', type: 'cos' },
-      { name: 'cos', type: 'cos' }],
-    [
-      { name: 'cos12', type: 'cos' },
-      { name: 'co1', type: 'cos' },
-      { name: 'cos', type: 'cos' },
-      { name: 'cos', type: 'cos' }],
-    [
-      { name: 'cos13', type: 'cos' },
-      { name: 'kocham', type: 'cos' },
-      { name: 'cos', type: 'cos' },
-      { name: 'cos', type: 'cos' }]]
-
+    const { tableName, headers, rows} = this.state;
 
     return (
       <>
-        
         <Button
           type='primary'
           onClick={this.handleBack}
-          className='back-btn'
-        >
+          className='back-btn'>
           <Icon type="left" />
           Powrót
         </Button>
-        <EditRowPage row={rows[0]} headers={headers} tableName ={tableName}/>
+        <EditRowPage row={rows[0]} headers={headers} tableName ={tableName}/> 
         <ToDivider title={`Tabela: ${tableName}`} />
-        <Table rows={rows} headers={headers} />
+       {rows &&  (<Table rows={rows} headers={headers} />)} 
       </>
     )
   }
@@ -118,4 +83,11 @@ interface SingleTableDisplayerPageProps extends RouteComponentProps<any> {
 
 interface SingleTableDisplayerPageState {
   tableName: string | undefined;
+  headers: Array<{name:string, type: string}>
+  rows:Array<Array<Field>>
+}
+
+interface Field {
+  name: string | number;
+  type: string; 
 }

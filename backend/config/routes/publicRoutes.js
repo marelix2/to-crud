@@ -1,7 +1,8 @@
 const publicRoutes = {
   'GET /tables': 'TableController.getTables',
   'POST /table/row': 'TableController.updateRow',
-  'GET /table/rows' : 'TableController.getTableRows'
+  'PUT /table/rows' : 'TableController.getTableRows',
+  'PUT /table/headers' : 'TableController.getTableHeaders'
 }
 
 

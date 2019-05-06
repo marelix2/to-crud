@@ -11,7 +11,6 @@ const Rows: FunctionComponent<RowsProps> = (props) => {
   })
   const convertedRows = data.map((array, index) => (
     <Row
-      gutter={24}
       type='flex'
       justify='center'
       key={`${index}-cos-c`}
