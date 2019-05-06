@@ -2,13 +2,12 @@ import React from 'react';
 import { Input, Icon, Tooltip } from 'antd';
 
 const ToInput = (props: ToInputProps) => {
-    const { inputKey, changed, index, value, header, placeholder } = props
+    const {changed, index, value, header, placeholder } = props
 
     return (
        
             <Input
                 addonBefore = {header}
-                key={inputKey}
                 placeholder={placeholder}
                 suffix={
                     <Tooltip title={`podaj wartosc pola ${header}`}>
@@ -25,8 +24,7 @@ const ToInput = (props: ToInputProps) => {
 
 
 interface ToInputProps {
-    inputKey: string;
-    header: string;
+    header: string | undefined;
     value: string;
     changed: any;
     index: number;

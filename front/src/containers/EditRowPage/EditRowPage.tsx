@@ -33,13 +33,12 @@ class EditRowPage extends Component<EditRowPageProps, EditRowPageState> {
     render() {
 
         const { headers, row } = this.props;
-
-        const fields = row.map((field, index) => (
+        const fields = row && row.map((field, index) => (
             <ToInput
-                inputKey={`${field[index]}-${index}`}
-                placeholder={`podaj wartosc pola ${headers[index].name}`}
-                header={headers[index].name}
-                value={field.name}
+                key={`${field[index]}-${index}`}
+                placeholder={`podaj wartosc pola ${headers[index] && headers[index].name }`}
+                header={headers[index] && headers[index].name }
+                value={field && field.name}
                 changed={this.onChange}
                 index={index}
             />
@@ -50,9 +49,7 @@ class EditRowPage extends Component<EditRowPageProps, EditRowPageState> {
                 <Row gutter={16} type="flex" justify="center">
                     <Col span={8}>
                         <Card title="Edycja Pola">
-
                             {fields}
-
                             <Button type='primary' onClick={this.onSubmit}>Zapisz</Button>
                         </Card>
 
@@ -74,7 +71,7 @@ interface EditRowPageState {
 
 interface EditRowPageProps {
     row: Array<any>
-    headers: Array<{ name: string, type: string }>
+    headers: Array<{ name: string | undefined, type: string }>
     tableName: string | undefined
 
 }

@@ -12,7 +12,7 @@ class Table extends Component<TableProps, TableState> {
     super(props);
 
     this.state = {
-      rowsData: this.props.rows,
+      rowsData: [],
       currentPage: 1,
       totalPages: 0,
       pageSize: 10,
@@ -21,16 +21,24 @@ class Table extends Component<TableProps, TableState> {
   }
 
   componentDidUpdate(prevProps: TableProps, prevState: TableState) {
-    if (!isEqual(this.props.rows, prevProps.rows)
+    if (!isEqual(this.props.rows, prevProps.rows)){
+      this.setState({ rows: this.renderRows(),
+        rowsData: this.props.rows
+      })
+      return;
+    }
+
+    if( !isEqual(this.props.rows, prevProps.rows)
      || !isEqual(this.state.currentPage, prevState.currentPage) 
-     || !isEqual(this.state.pageSize, prevState.pageSize)
-     || !isEqual(this.state.rowsData, prevState.rowsData)) {
-      this.setState({ rows: this.renderRows() })
+      || !isEqual(this.state.pageSize, prevState.pageSize)
+      || !isEqual(this.state.rowsData, prevState.rowsData)) {
+        this.setState({ rows: this.renderRows()})
+        return;
     }
   }
 
   componentDidMount() {
-    this.setState({ rows: this.renderRows() })
+    this.setState({ rows: this.renderRows()})
   }
 
   shouldShowRow = (index : number) => {
@@ -70,7 +78,9 @@ class Table extends Component<TableProps, TableState> {
   render() {
 
     const { rowsData, currentPage, rows } = this.state
-    const { headers, } = this.props
+    const { headers} = this.props
+
+    const offset = rowsData[0] && (rowsData[0].length) * 3;
 
     const pagination =(
       <Col>
@@ -83,11 +93,10 @@ class Table extends Component<TableProps, TableState> {
         />
       </Col>)
 
-
     return (
       <>
-        <Row type='flex' justify='start'>
-          <Col offset={5} span={12}>
+        <Row type='flex' justify='center'>
+          <Col span={4}>
             <Search
               placeholder='Search...'
               changed={(evt) => this.searchDataHandler(evt)}
@@ -106,8 +115,8 @@ class Table extends Component<TableProps, TableState> {
             {rows}
           </Col>
         </Row>
-        <Row type='flex' justify='end' className='table-pagination'>
-          <Col span={8}>
+        <Row type='flex' justify='center' className='table-pagination'>
+          <Col span={5}>
             {pagination}
           </Col>
         </Row>
