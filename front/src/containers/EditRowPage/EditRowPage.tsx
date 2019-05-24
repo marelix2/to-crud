@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, Button } from 'antd';
+import { Row, Col, Card, Button,Icon } from 'antd';
+import { RouteComponentProps } from 'react-router-dom';
 import axios from '../../AxiosApi';
 import API from '../../endpoints';
 import ToInput from './ToInput/ToInput';
@@ -9,35 +10,42 @@ class EditRowPage extends Component<EditRowPageProps, EditRowPageState> {
     constructor(props: EditRowPageProps) {
         super(props);
         this.state = {
-            values: []
+            values: props.location.state.row
         }
     }
 
-    componentDidMount() {
-    }
-
     onChange = (evt: React.FormEvent<HTMLInputElement>, index: number) => {
-        const { row } = this.props;
+        const { row } = this.props.location.state;
         const sth = [...row]
         sth[index].name = evt.currentTarget.value;
         this.setState({ values: sth})
     }
 
     onSubmit = () => {
-        axios.post(API.POST_TABLE_ROW, {
-            headers: this.props.headers,
-            id: this.props.rowIndex,
-            values: this.state.values,
-            tableName: this.props.tableName
+        const {values} = this.state
+        const {headers, rowIndex, tableName} = this.props.location.state
+        console.log(rowIndex)
+        if(values) {
+            axios.post(API.POST_TABLE_ROW, {
+                headers: headers.filter((field:any) => field.type !== 'actions'),
+                id: rowIndex,
+                values: this.state.values.filter(field => field.type !== 'actions'),
+                tableName: tableName
+            })
         }
-        ).then((res) => console.log('siemasz', res));
 
+        this.handleBack();
+    }
+    
+    handleBack = () => {
+        this.props.history.push(`/${this.props.location.state.tableName}`)
     }
 
     render() {
 
-        const { headers, row } = this.props;
-        const fields = row && row.map((field, index) => (
+        const { headers, row } = this.props.location.state;
+        const {values} = this.state
+        const fields = values && values.filter(field => field.type !== 'actions').map((field, index) => (
             <ToInput
                 key={`${field[index]}-${index}`}
                 placeholder={`podaj wartosc pola ${headers[index] && headers[index].name}`}
@@ -50,10 +58,17 @@ class EditRowPage extends Component<EditRowPageProps, EditRowPageState> {
 
         return (
             <>
+              <Button
+          type='primary'
+          onClick={this.handleBack}
+          className='back-btn'>
+          <Icon type="left" />
+          Powrót
+        </Button>
                 <Row gutter={16} type="flex" justify="center">
                     <Col span={8}>
                         <Card title="Edycja Pola">
-                            {fields}
+                              {fields}
                             <Button type='primary' onClick={this.onSubmit}>Zapisz</Button>
                         </Card>
 
@@ -73,10 +88,9 @@ interface EditRowPageState {
 }
 
 
-interface EditRowPageProps {
+interface EditRowPageProps extends RouteComponentProps<any>{
     row: Array<any>
     headers: Array<{ name: string | undefined, type: string }>
     tableName: string | undefined
     rowIndex: number
-
 }

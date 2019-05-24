@@ -47,7 +47,7 @@ class Table extends Component<TableProps, TableState> {
 
   renderRows = () => {
     const paginatedRows = this.state.rowsData.filter((row, index)=> this.shouldShowRow(index) )
-    return (<Rows rows={paginatedRows} />)
+    return (<Rows rows={paginatedRows} onUpdateClick={this.props.handleUpdateClick} onDeleteClick={this.props.handleDeleteClick} />)
   }
 
 
@@ -128,6 +128,8 @@ class Table extends Component<TableProps, TableState> {
 interface TableProps {
   rows: Array<any>
   headers: Array<{ name: string, type: string }>
+  handleUpdateClick: (arr:Array<{ name: string, type: string }>, index: number) => void
+  handleDeleteClick: (arr: Array<{ name: string, type: string }>, index: number) => void
 }
 
 interface TableState {

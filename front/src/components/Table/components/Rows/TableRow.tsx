@@ -1,9 +1,21 @@
 import React, { FunctionComponent } from 'react';
-import { Col } from 'antd'
+import { Col, Button} from 'antd'
 
 const TableRow: FunctionComponent<RowProps> = (props) => {
 
-  const row = props.row.map((r, index) => (
+  const row = props.row.map((r, index) =>{
+  return r.type === 'actions' ?
+  (
+    <Col
+    span={3}
+    key={`${index}, co tam kolego`}
+    className='action-items  col-item'
+  >
+    <Button type="primary" icon="select" onClick={() => props.updateClicked(props.row, props.rowIndex)}/>
+    <Button type="danger" icon="delete" onClick={() => props.deleteClicked(props.row, props.rowIndex)}/>
+    </Col>
+  ) :
+  (
     <Col
       span={3}
       key={`${index}, co tam kolego`}
@@ -11,7 +23,8 @@ const TableRow: FunctionComponent<RowProps> = (props) => {
     >
       {r.name}
     </Col>
-  ))
+  )}
+  )
 
   return (
     <>
@@ -22,6 +35,9 @@ const TableRow: FunctionComponent<RowProps> = (props) => {
 
 interface RowProps {
   row: Array<{ name: string, type: string }>
+  updateClicked : (arr:Array<{ name: string, type: string }>, index: number) => void
+  deleteClicked : (arr:Array<{ name: string, type: string }>, index: number) => void,
+  rowIndex: number
 }
 
 export default TableRow;

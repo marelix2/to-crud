@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Icon } from 'antd';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, Redirect } from 'react-router-dom';
 import ToDivider from '../../components/ToDivider/ToDivider';
 import Table from '../../components/Table/Table';
-import EditRowPage from '../EditRowPage/EditRowPage';
 import axios from '../../AxiosApi'
 import API from '../../endpoints'
 
@@ -15,8 +14,15 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
     super(props)
     this.state = {
       tableName: this.props.location.pathname.slice(1, this.props.location.pathname.length),
-      headers:[],
-      rows: []
+      headers: [],
+      rows: [],
+      updateRow: {
+        clicked: false,
+        row: [],
+        rowIndex: 0,
+        headers: [],
+        tableName: undefined
+      }
     }
   }
 
@@ -26,39 +32,72 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
   }
 
   fetchTableHeaders = () => {
-    axios.put(API.GET_TABLE_HEADERS, {tableName : this.state.tableName}).then((response : any) => {
+    axios.put(API.GET_TABLE_HEADERS, { tableName: this.state.tableName }).then((response: any) => {
       const headers = response.data.headers.map((header: any) => {
         return {
           name: header.name,
           type: header.type
         }
       })
-        this.setState({headers})
+      this.setState({ headers })
     })
   }
 
   fetchTableData = () => {
-    axios.put(API.GET_TABLE_ROWS, {tableName : this.state.tableName}).then((response : any) => {
+    axios.put(API.GET_TABLE_ROWS, { tableName: this.state.tableName }).then((response: any) => {
       const rows = response.data.rows.map((r: any) => {
         const keys = Object.keys(r);
-        const arr= [];
-        for(let i = 0; i < keys.length ; i++){
-          arr.push({name: r[keys[i]], type: typeof r[keys[i]]})
+        const arr = [];
+        for (let i = 0; i < keys.length; i++) {
+          arr.push({ name: r[keys[i]], type: typeof r[keys[i]] })
         }
         return arr;
       })
-      this.setState({rows})
-      })
+      this.setState({ rows })
+    })
   }
-
 
   handleBack = () => {
     this.props.history.push('/')
   }
 
+  handleUpdateClick = (arr: Array<{ name: string, type: string }>, index: number) => {
+    
+
+    const {headers,tableName } =  this.state
+
+    this.setState({
+      updateRow: {
+        clicked: true,
+        row: arr,
+        rowIndex: index,
+        headers: headers,
+        tableName: tableName
+      }
+    })
+
+  }
+
+  handleDeleteClick = (arr: Array<{ name: string, type: string }>, index: number) => {
+    console.log('delete clicked', arr)
+  }
+
   render() {
 
-    const { tableName, headers, rows} = this.state;
+    const { tableName, headers, rows, updateRow } = this.state;
+
+    if (updateRow.clicked) {
+      return <Redirect to={{
+        pathname: '/row',
+        state: {
+          row: updateRow.row,
+          rowIndex: updateRow.rowIndex,
+          headers: updateRow.headers,
+          tableName: updateRow.tableName
+        }
+      }} />
+      
+    }
 
     return (
       <>
@@ -69,9 +108,8 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
           <Icon type="left" />
           Powrót
         </Button>
-        <EditRowPage row={rows[0]}  rowIndex={0} headers={headers} tableName ={tableName}/> 
         <ToDivider title={`Tabela: ${tableName}`} />
-       {rows &&  (<Table rows={rows} headers={headers} />)} 
+        {rows && (<Table rows={rows} headers={headers} handleDeleteClick={this.handleDeleteClick} handleUpdateClick={this.handleUpdateClick} />)}
       </>
     )
   }
@@ -83,11 +121,18 @@ interface SingleTableDisplayerPageProps extends RouteComponentProps<any> {
 
 interface SingleTableDisplayerPageState {
   tableName: string | undefined;
-  headers: Array<{name:string, type: string}>
-  rows:Array<Array<Field>>
+  headers: Array<{ name: string, type: string }>
+  rows: Array<Array<Field>>,
+  updateRow: {
+    clicked: boolean,
+    row: Array<Field>,
+    rowIndex: number,
+    headers: Array<{ name: string, type: string }>
+    tableName: string | undefined
+  }
 }
 
 interface Field {
   name: string | number;
-  type: string; 
+  type: string;
 }
