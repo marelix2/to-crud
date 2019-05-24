@@ -78,6 +78,32 @@ const TableController = () => {
 
   }
 
+  deleteRow = async (req, res) => {
+    try {
+      const {id,tableName } = req.body;
+      
+      //TODO: type validation on update
+
+      let info = await sequelize.query(`Select * FROM ${tableName};`);
+
+      if (info[0].length === 0) {
+        return res.status(NOT_FOUND)
+          .json({ msg: 'brak wieksza' });
+      }
+
+      info = info[0]
+      const valueToDelete = info[id];
+
+        let qq =  await sequelize.query(query.getDeleteQuery(tableName, valueToDelete)) ;
+      return res.status(OK).json({ msg: "operacja zakończona sukcesem" });
+    } catch (error) {
+      return res.status(INTERNAL_SERVER_ERROR)
+        .json({ msg: 'Error while connecting to database (deleteRow, TableController)' + error });
+    }
+
+  }
+
+
   insertRow = async (req, res) => {
     try {
       return res.status(OK).json({ msg: 'udalo sie' });
@@ -130,6 +156,7 @@ const TableController = () => {
   return {
     getTables,
     updateRow,
+    deleteRow,
     getTableRows,
     getTableHeaders
   }

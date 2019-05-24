@@ -12,6 +12,14 @@ const getUpdateQuery = (headers, values, tableName, valueToUpdate) => {
     return `UPDATE ${tableName} SET ${setValues} WHERE ${whereStatement}`;
 }
 
+const getDeleteQuery = (tableName, valueToDelete) => {
+    let whereStatement = '';
+    Object.keys(valueToDelete).forEach((key) => whereStatement += `${key} = ${typeof valueToDelete[key] === 'string' ?  `'${valueToDelete[key]}'` : valueToDelete[key] } AND `);
+    whereStatement = whereStatement.slice(0, whereStatement.length - 5);
+    return `DELETE FROM ${tableName} WHERE ${whereStatement}`;
+}
+
 module.exports = {
-    getUpdateQuery
+    getUpdateQuery,
+    getDeleteQuery
 }

@@ -7,6 +7,7 @@ import axios from '../../AxiosApi'
 import API from '../../endpoints'
 
 import './SingleTableDisplayerPage.scss';
+import Rows from '../../components/Table/components/Rows/Rows';
 
 export default class SingleTableDisplayerPage extends Component<SingleTableDisplayerPageProps, SingleTableDisplayerPageState> {
 
@@ -79,7 +80,14 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
   }
 
   handleDeleteClick = (arr: Array<{ name: string, type: string }>, index: number) => {
-    console.log('delete clicked', arr)
+    const {tableName } =  this.state
+    axios.delete(API.POST_TABLE_ROW, { data : {
+      id: index,
+      tableName: tableName
+    }
+  }).then((res) => {
+      this.fetchTableData()
+  })
   }
 
   render() {
