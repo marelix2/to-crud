@@ -9,20 +9,24 @@ class EditRowPage extends Component<EditRowPageProps, EditRowPageState> {
     constructor(props: EditRowPageProps) {
         super(props);
         this.state = {
-            values: props.row
+            values: []
         }
     }
 
+    componentDidMount() {
+    }
+
     onChange = (evt: React.FormEvent<HTMLInputElement>, index: number) => {
-        const { values } = this.state;
-        const sth = [...values]
+        const { row } = this.props;
+        const sth = [...row]
         sth[index].name = evt.currentTarget.value;
-        this.setState({ values: sth })
+        this.setState({ values: sth})
     }
 
     onSubmit = () => {
         axios.post(API.POST_TABLE_ROW, {
             headers: this.props.headers,
+            id: this.props.rowIndex,
             values: this.state.values,
             tableName: this.props.tableName
         }
@@ -36,8 +40,8 @@ class EditRowPage extends Component<EditRowPageProps, EditRowPageState> {
         const fields = row && row.map((field, index) => (
             <ToInput
                 key={`${field[index]}-${index}`}
-                placeholder={`podaj wartosc pola ${headers[index] && headers[index].name }`}
-                header={headers[index] && headers[index].name }
+                placeholder={`podaj wartosc pola ${headers[index] && headers[index].name}`}
+                header={headers[index] && headers[index].name}
                 value={field && field.name}
                 changed={this.onChange}
                 index={index}
@@ -73,5 +77,6 @@ interface EditRowPageProps {
     row: Array<any>
     headers: Array<{ name: string | undefined, type: string }>
     tableName: string | undefined
+    rowIndex: number
 
 }

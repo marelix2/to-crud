@@ -69,7 +69,7 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
           <Icon type="left" />
           Powrót
         </Button>
-        <EditRowPage row={rows[0]} headers={headers} tableName ={tableName}/> 
+        <EditRowPage row={rows[0]}  rowIndex={0} headers={headers} tableName ={tableName}/> 
         <ToDivider title={`Tabela: ${tableName}`} />
        {rows &&  (<Table rows={rows} headers={headers} />)} 
       </>
