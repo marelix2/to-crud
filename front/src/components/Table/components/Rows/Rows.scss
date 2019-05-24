@@ -5,6 +5,9 @@
   .col-item {
     padding: 0.6em;
     border-bottom: 1px solid $frame_color;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
   }
   .col-item:first-child {
     border-left: none;
@@ -12,6 +15,16 @@
 
   .col-item:nth-child(2n){
     background: $alt_background;
+  }
+
+  .col-item:nth-child(2n){
+    background: $alt_background;
+  }
+
+  .action-items {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
   }
 
 }

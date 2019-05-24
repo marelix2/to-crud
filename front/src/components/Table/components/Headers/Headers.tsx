@@ -6,7 +6,7 @@ import './Headers.scss';
 
 const Headers: FunctionComponent<HeadersProps> = (props) => {
 
-  const cols = [ ...props.columns, {name: 'akcje', type: 'none'}]
+  const cols = [ ...props.columns, {name: 'akcje', type: 'actions'}]
   const headers = cols.map((column, index) => (
     <Col
       span={3}

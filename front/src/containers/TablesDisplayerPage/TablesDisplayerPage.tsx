@@ -22,6 +22,12 @@ class TablesDisplayerPage extends Component<ITablesDisplayerPageProps, ITablesDi
     this.fetchTables();
   }
 
+  componentWillReceiveProps(nextProps: any, nextState :any) {
+    console.log(nextProps)
+
+    return true
+  }
+
   fetchTables = () => {
     axios.get(API.GET_TABLES).then((response: any) => {
       this.setState({ tables: response.data.tables })
