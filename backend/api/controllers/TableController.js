@@ -47,7 +47,7 @@ const TableController = () => {
   updateRow = async (req, res) => {
     try {
       const { values, id, headers, tableName } = req.body;
-      
+
       //TODO: type validation on update
 
       let info = await sequelize.query(`Select * FROM ${tableName};`);
@@ -65,11 +65,11 @@ const TableController = () => {
       const changes = values.map((val, index) => ({ cell: val, id: index }))
         .filter((val, index) => val.cell.name !== valueToUpdate[keys[index]])
 
-        if (changes.length === 0) {
-          return res.status(OK).json({ msg: "brak zmian" });
-        }
+      if (changes.length === 0) {
+        return res.status(OK).json({ msg: "brak zmian" });
+      }
 
-        let qq =  await sequelize.query(query.getUpdateQuery(keys, changes, tableName, valueToUpdate)) ;
+      let qq = await sequelize.query(query.getUpdateQuery(keys, changes, tableName, valueToUpdate));
       return res.status(OK).json({ msg: "operacja zakończona sukcesem" });
     } catch (error) {
       return res.status(INTERNAL_SERVER_ERROR)
@@ -80,8 +80,8 @@ const TableController = () => {
 
   deleteRow = async (req, res) => {
     try {
-      const {id,tableName } = req.body;
-      
+      const { id, tableName } = req.body;
+
       //TODO: type validation on update
 
       let info = await sequelize.query(`Select * FROM ${tableName};`);
@@ -94,7 +94,7 @@ const TableController = () => {
       info = info[0]
       const valueToDelete = info[id];
 
-        let qq =  await sequelize.query(query.getDeleteQuery(tableName, valueToDelete)) ;
+      let qq = await sequelize.query(query.getDeleteQuery(tableName, valueToDelete));
       return res.status(OK).json({ msg: "operacja zakończona sukcesem" });
     } catch (error) {
       return res.status(INTERNAL_SERVER_ERROR)
@@ -106,60 +106,72 @@ const TableController = () => {
 
   insertRow = async (req, res) => {
     try {
-      return res.status(OK).json({ msg: 'udalo sie' });
-    } catch (error) {
-      return res.status(INTERNAL_SERVER_ERROR)
-        .json({ msg: 'Error while connecting to database (getTables, TableController)' });
-    }
+    const { values, id, headers, tableName } = req.body;
 
+    let info = await sequelize.query(`Select * FROM ${tableName};`);
+
+    console.log(query.getInsertQuery(tableName,headers, values))
+
+    const keys = Object.keys(info[0]);
+    const valueToUpdate = info[id];
+
+    let qq = await sequelize.query(query.getInsertQuery(tableName,headers, values));
+
+
+    return res.status(OK).json({ msg: "operacja zakończona sukcesem" });
+  } catch (error) {
+    return res.status(INTERNAL_SERVER_ERROR)
+      .json({ msg: 'Error while connecting to database (insertRow, TableController)' + error });
   }
+}
 
-  getTableHeaders = async (req, res) => {
-    try {
-      const { tableName } = req.body;
+getTableHeaders = async (req, res) => {
+  try {
+    const { tableName } = req.body;
 
-      const queryString = `PRAGMA TABLE_INFO(${tableName})`
-      const headers = await sequelize.query(queryString).then((response) => {
-        const cols = Object.keys(response).map((col) => {
-          return {
-            name: col,
-            type: response[col].type,
-            isPrimary: response[col].primaryKey
-          }
-        })
-        return cols;
+    const queryString = `PRAGMA TABLE_INFO(${tableName})`
+    const headers = await sequelize.query(queryString).then((response) => {
+      const cols = Object.keys(response).map((col) => {
+        return {
+          name: col,
+          type: response[col].type,
+          isPrimary: response[col].primaryKey
+        }
       })
+      return cols;
+    })
 
-      return res.status(OK).json({ headers });
-    } catch (error) {
-      return res.status(INTERNAL_SERVER_ERROR)
-        .json({ msg: 'Error while connecting to database (getTableHeaders, TableController)' + error });
-    }
+    return res.status(OK).json({ headers });
+  } catch (error) {
+    return res.status(INTERNAL_SERVER_ERROR)
+      .json({ msg: 'Error while connecting to database (getTableHeaders, TableController)' + error });
   }
+}
 
-  getTableRows = async (req, res) => {
-    try {
-      const { tableName } = req.body;
+getTableRows = async (req, res) => {
+  try {
+    const { tableName } = req.body;
 
-      let rows = await sequelize.query(`Select * FROM ${tableName};`);
-      rows = rows[0];
+    let rows = await sequelize.query(`Select * FROM ${tableName};`);
+    rows = rows[0];
 
-      return res.status(OK).json({ rows });
-    } catch (error) {
-      return res.status(INTERNAL_SERVER_ERROR)
-        .json({ msg: 'Error while connecting to database (getTables, TableController)' });
-    }
+    return res.status(OK).json({ rows });
+  } catch (error) {
+    return res.status(INTERNAL_SERVER_ERROR)
+      .json({ msg: 'Error while connecting to database (getTables, TableController)' });
   }
+}
 
 
 
-  return {
-    getTables,
-    updateRow,
-    deleteRow,
-    getTableRows,
-    getTableHeaders
-  }
+return {
+  getTables,
+  insertRow,
+  updateRow,
+  deleteRow,
+  getTableRows,
+  getTableHeaders
+}
 }
 
 
