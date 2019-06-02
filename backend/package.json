@@ -10,6 +10,7 @@
     "ustart": "npm run unodemon",
     "unodemon": "sudo nodemon --exec npm run dev",
     "insert-table": "node scripts/createTables.js",
+    "generate-files": "node scripts/createFiles.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Michal R.",
@@ -26,6 +27,7 @@
     "express-routes-mapper": "^1.1.0",
     "googleapis": "^34.0.0",
     "http-status-codes": "^1.3.0",
+    "lorem-ipsum": "^2.0.2",
     "md5": "^2.2.1",
     "morgan": "~1.9.0",
     "mysql": "^2.16.0",
