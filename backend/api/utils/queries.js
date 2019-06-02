@@ -3,9 +3,9 @@ const getUpdateQuery = (headers, values, tableName, valueToUpdate) => {
 
     const headersIds = values.map(cell => cell.id)
     const filteredHeaders = headers.filter((header, index) => headersIds.includes(index))
-    let setValues = values.reduce((res, val, index) => res + `${filteredHeaders[index]} =  ${val.cell.type === 'string' ? `'${val.cell.name}'` : val.cell.name },`, "")
+    let setValues = values.reduce((res, val, index) => res + `${filteredHeaders[index]} =  ${val.cell.type === 'string' ? `'${val.cell.name}'` : val.cell.name},`, "")
     let whereStatement = '';
-    Object.keys(valueToUpdate).forEach((key) => whereStatement += `${key} = ${typeof valueToUpdate[key] === 'string' ?  `'${valueToUpdate[key]}'` : valueToUpdate[key] } AND `);
+    Object.keys(valueToUpdate).forEach((key) => whereStatement += `${key} = ${typeof valueToUpdate[key] === 'string' ? `'${valueToUpdate[key]}'` : valueToUpdate[key]} AND `);
 
     setValues = setValues.slice(0, setValues.length - 1);
     whereStatement = whereStatement.slice(0, whereStatement.length - 5);
@@ -14,12 +14,20 @@ const getUpdateQuery = (headers, values, tableName, valueToUpdate) => {
 
 const getDeleteQuery = (tableName, valueToDelete) => {
     let whereStatement = '';
-    Object.keys(valueToDelete).forEach((key) => whereStatement += `${key} = ${typeof valueToDelete[key] === 'string' ?  `'${valueToDelete[key]}'` : valueToDelete[key] } AND `);
+    Object.keys(valueToDelete).forEach((key) => whereStatement += `${key} = ${typeof valueToDelete[key] === 'string' ? `'${valueToDelete[key]}'` : valueToDelete[key]} AND `);
     whereStatement = whereStatement.slice(0, whereStatement.length - 5);
     return `DELETE FROM ${tableName} WHERE ${whereStatement}`;
 }
 
+const getInsertQuery = (tableName, headers, values) => {
+    let insertValues = values.reduce((res, val, index) => res + `${val.type === 'string' ? `'${val.name || 'empty'}'` : val.name || 0},`, "")
+    insertValues = insertValues.slice(0, insertValues.length - 1);
+
+    return `INSERT INTO ${tableName} VALUES (${insertValues})`
+}
+
 module.exports = {
     getUpdateQuery,
-    getDeleteQuery
+    getDeleteQuery,
+    getInsertQuery
 }
