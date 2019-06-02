@@ -19,6 +19,7 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
       rows: [],
       updateRow: {
         clicked: false,
+        updating: false,
         row: [],
         rowIndex: 0,
         headers: [],
@@ -63,15 +64,30 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
   }
 
   handleUpdateClick = (arr: Array<{ name: string, type: string }>, index: number) => {
-    
-
     const {headers,tableName } =  this.state
 
     this.setState({
       updateRow: {
         clicked: true,
+        updating: true,
         row: arr,
         rowIndex: index,
+        headers: headers,
+        tableName: tableName
+      }
+    })
+
+  }
+
+  handleInsertClick = () => {
+    const {headers,tableName, rows } =  this.state
+
+    this.setState({
+      updateRow: {
+        clicked: true,
+        updating: false,
+        row: rows[0],
+        rowIndex: 0,
         headers: headers,
         tableName: tableName
       }
@@ -99,6 +115,7 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
         pathname: '/row',
         state: {
           row: updateRow.row,
+          updating: updateRow.updating,
           rowIndex: updateRow.rowIndex,
           headers: updateRow.headers,
           tableName: updateRow.tableName
@@ -116,7 +133,15 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
           <Icon type="left" />
           Powrót
         </Button>
+        <Button
+          type='primary'
+          onClick={this.handleInsertClick}
+          className='back-btn'>
+          Dodaj Wiersz
+          <Icon type="right"/>
+        </Button>
         <ToDivider title={`Tabela: ${tableName}`} />
+        
         {rows && (<Table rows={rows} headers={headers} handleDeleteClick={this.handleDeleteClick} handleUpdateClick={this.handleUpdateClick} />)}
       </>
     )
@@ -133,6 +158,7 @@ interface SingleTableDisplayerPageState {
   rows: Array<Array<Field>>,
   updateRow: {
     clicked: boolean,
+    updating: boolean,
     row: Array<Field>,
     rowIndex: number,
     headers: Array<{ name: string, type: string }>
