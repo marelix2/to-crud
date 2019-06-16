@@ -1,16 +1,15 @@
 const fs = require('fs');
 const LoremIpsum = require("lorem-ipsum").LoremIpsum;
 const args = process.argv.slice(2)
-console.log(args[0])
 
 const lorem = new LoremIpsum({
     sentencesPerParagraph: {
-        max: 2,
-        min: 1
+        max: 1,
+        min: 0
     },
     wordsPerSentence: {
-        max: 16,
-        min: 4
+        max: 8,
+        min: 1
     }
 });
 
@@ -18,12 +17,13 @@ const getInt = (min, max) => {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
-const numberOfFilesLines = getInt(80, 120);
+const numberOfFilesLines = getInt(80,100);
 let files = new Array(100).fill(`${args[0] || 'alpha'}`);
 const paragraphs = new Array(numberOfFilesLines).fill('').map(() => lorem.generateParagraphs(1))
 
 
 const saveToFile = (fileName, data) => {
+    console.log(data)
     fs.writeFile(`../backend/tmp/${fileName}.txt`, data, (err) => {
         if (err) console.log(err);
         console.log("Successfully Written to File.");
@@ -39,6 +39,7 @@ const replaceLines = (data) => {
             data[iterator] = lorem.generateParagraphs(1);
             rangeOfSentenceChange--;
         }
+        data[iterator] = data[iterator] + '\n';
         iterator++;
     }
     return data;
