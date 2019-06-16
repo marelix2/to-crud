@@ -12,13 +12,18 @@ const Headers: FunctionComponent<HeadersProps> = (props) => {
       span={3}
       key={`key-${column.name}-${index}`}
       className='field-header'
+      
     >
     {upperFirst(column.name)} 
     </Col>
   ));
   return (
     <>
-      <Row gutter={24} type='flex' justify='center'>
+      <Row gutter={24}
+       type='flex'
+        justify='center'
+        style={{margin: 0}}
+        >
         {headers}
       </Row>
     </>

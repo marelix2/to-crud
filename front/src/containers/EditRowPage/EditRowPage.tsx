@@ -10,30 +10,60 @@ class EditRowPage extends Component<EditRowPageProps, EditRowPageState> {
     constructor(props: EditRowPageProps) {
         super(props);
         this.state = {
-            values: props.location.state.row
+            values: []
         }
     }
 
+    componentDidMount() {
+        const { updating, row } = this.props.location.state;
+        const values = updating ? row : row.map( (row : {name: any, type: string}) => ({name: "", type: row.type}) )
+        this.setState({values})
+    }
+
     onChange = (evt: React.FormEvent<HTMLInputElement>, index: number) => {
-        const { row } = this.props.location.state;
-        const sth = [...row]
+        const sth = [...this.state.values]
         sth[index].name = evt.currentTarget.value;
         this.setState({ values: sth})
     }
 
+    onPostUpdates = (updatedData : UpdateData ) => {
+        axios.post(API.POST_TABLE_ROW, {
+            headers: updatedData.headers,
+            id: updatedData.id,
+            values: updatedData.values,
+            tableName: updatedData.tableName
+        })
+    }
+
+    onPostNewValues = (newData : UpdateData ) => {
+        axios.post(API.POST_INSERT_TABLE_ROW, {
+            headers: newData.headers,
+            id: newData.id,
+            values: newData.values,
+            tableName: newData.tableName
+        })
+    }
+
     onSubmit = () => {
         const {values} = this.state
-        const {headers, rowIndex, tableName} = this.props.location.state
-        console.log(rowIndex)
-        if(values) {
-            axios.post(API.POST_TABLE_ROW, {
-                headers: headers.filter((field:any) => field.type !== 'actions'),
-                id: rowIndex,
-                values: this.state.values.filter(field => field.type !== 'actions'),
-                tableName: tableName
-            })
+        const {headers, rowIndex, tableName, updating } = this.props.location.state
+        if(!!values ){
+            if(updating) {
+                this.onPostUpdates({
+                     headers: headers.filter((field:any) => field.type !== 'actions'),
+                     id: rowIndex,
+                     values: this.state.values.filter(field => field.type !== 'actions'),
+                     tableName: tableName
+                 })
+             } else {
+                this.onPostNewValues({
+                    headers: headers.filter((field:any) => field.type !== 'actions'),
+                    id: 0,
+                    values: this.state.values.filter(field => field.type !== 'actions'),
+                    tableName: tableName
+                })
+             }
         }
-
         this.handleBack();
     }
     
@@ -43,8 +73,10 @@ class EditRowPage extends Component<EditRowPageProps, EditRowPageState> {
 
     render() {
 
-        const { headers, row } = this.props.location.state;
+        const { headers } = this.props.location.state;
+        
         const {values} = this.state
+
         const fields = values && values.filter(field => field.type !== 'actions').map((field, index) => (
             <ToInput
                 key={`${field[index]}-${index}`}
@@ -93,4 +125,11 @@ interface EditRowPageProps extends RouteComponentProps<any>{
     headers: Array<{ name: string | undefined, type: string }>
     tableName: string | undefined
     rowIndex: number
+}
+
+interface UpdateData {
+    headers: { name: string | undefined, type: string },
+    id: number,
+    values: Array<any>,
+    tableName: string | undefined
 }
