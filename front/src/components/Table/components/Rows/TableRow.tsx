@@ -34,9 +34,9 @@ const TableRow: FunctionComponent<RowProps> = (props) => {
 };
 
 interface RowProps {
-  row: Array<{ name: string, type: string }>
-  updateClicked : (arr:Array<{ name: string, type: string }>, index: number) => void
-  deleteClicked : (arr:Array<{ name: string, type: string }>, index: number) => void,
+  row: Array<{ name: string, type: string, isPrimary: boolean }>
+  updateClicked : (arr:Array<{ name: string, type: string, isPrimary: boolean }>, index: number) => void
+  deleteClicked : (arr:Array<{ name: string, type: string, isPrimary: boolean }>, index: number) => void,
   rowIndex: number
 }
 

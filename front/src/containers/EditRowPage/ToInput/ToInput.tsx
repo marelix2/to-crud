@@ -3,15 +3,15 @@ import { Input, Icon, Tooltip } from 'antd';
 
 
 const ToInput = (props: ToInputProps) => {
-    const {changed, index, value, header, placeholder } = props
+    const {changed, index, value, header, placeholder, type } = props
 
     return (
        
             <Input
                 addonBefore = {header}
-                placeholder={placeholder}
+                placeholder={`${placeholder}: ${type}`}
                 suffix={
-                    <Tooltip title={`podaj wartosc pola ${header}`}>
+                    <Tooltip title={`podaj wartosc pola ${header} : ${type}`}>
                         <Icon type="info-circle" style={{ color: 'rgba(0,0,0,.45)' }} />
                     </Tooltip>}
                 value={value}
@@ -27,6 +27,7 @@ const ToInput = (props: ToInputProps) => {
 interface ToInputProps {
     header: string | undefined;
     value: string;
+    type: string;
     changed: any;
     index: number;
     placeholder: string;

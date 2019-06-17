@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, Button,Icon } from 'antd';
+import { Row, Col, Card, Button,Icon, notification } from 'antd';
 import { RouteComponentProps } from 'react-router-dom';
 import axios from '../../AxiosApi';
 import API from '../../endpoints';
@@ -16,13 +16,13 @@ class EditRowPage extends Component<EditRowPageProps, EditRowPageState> {
 
     componentDidMount() {
         const { updating, row } = this.props.location.state;
-        const values = updating ? row : row.map( (row : {name: any, type: string}) => ({name: "", type: row.type}) )
+        const values = updating ? row : row.map( (row : {name: any, type: string, isPrimary: boolean}) => ({name: "", type: row.type, isPrimary: row.isPrimary}) )
         this.setState({values})
     }
 
     onChange = (evt: React.FormEvent<HTMLInputElement>, index: number) => {
         const sth = [...this.state.values]
-        sth[index].name = evt.currentTarget.value;
+        sth[index].name =  evt.currentTarget.value;
         this.setState({ values: sth})
     }
 
@@ -32,16 +32,30 @@ class EditRowPage extends Component<EditRowPageProps, EditRowPageState> {
             id: updatedData.id,
             values: updatedData.values,
             tableName: updatedData.tableName
+        }).then( res => {
+            
+            res && notification.success({
+                message: `${res.data.msg}`,
+                description: `(»◡«)`
+              });
         })
     }
 
     onPostNewValues = (newData : UpdateData ) => {
+        
         axios.post(API.POST_INSERT_TABLE_ROW, {
             headers: newData.headers,
             id: newData.id,
             values: newData.values,
             tableName: newData.tableName
+        }).then( res => {
+           res && notification.success({
+                message: `${res.data.msg}`,
+                description: `(»◡«)`
+              });
         })
+
+
     }
 
     onSubmit = () => {
@@ -81,8 +95,9 @@ class EditRowPage extends Component<EditRowPageProps, EditRowPageState> {
             <ToInput
                 key={`${field[index]}-${index}`}
                 placeholder={`podaj wartosc pola ${headers[index] && headers[index].name}`}
-                header={headers[index] && headers[index].name}
+                header={headers[index] && `${headers[index].name} ${headers[index].isPrimary ? '(PK)': ''}`}
                 value={field && field.name}
+                type={field && field.type}
                 changed={this.onChange}
                 index={index}
             />
@@ -122,7 +137,7 @@ interface EditRowPageState {
 
 interface EditRowPageProps extends RouteComponentProps<any>{
     row: Array<any>
-    headers: Array<{ name: string | undefined, type: string }>
+    headers: Array<{ name: string | undefined, type: string, isPrimary: boolean }>
     tableName: string | undefined
     rowIndex: number
 }
