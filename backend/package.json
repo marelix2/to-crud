@@ -10,6 +10,7 @@
     "ustart": "npm run unodemon",
     "unodemon": "sudo nodemon --exec npm run dev",
     "insert-table": "node scripts/createTables.js",
+    "create-table-keys": "node scripts/createTableWithKeys.js",
     "generate-files": "node scripts/createFiles.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

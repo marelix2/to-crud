@@ -23,7 +23,6 @@ const paragraphs = new Array(numberOfFilesLines).fill('').map(() => lorem.genera
 
 
 const saveToFile = (fileName, data) => {
-    console.log(data)
     fs.writeFile(`../backend/tmp/${fileName}.txt`, data, (err) => {
         if (err) console.log(err);
         console.log("Successfully Written to File.");

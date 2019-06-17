@@ -127,13 +127,13 @@ class Table extends Component<TableProps, TableState> {
 
 interface TableProps {
   rows: Array<any>
-  headers: Array<{ name: string, type: string }>
-  handleUpdateClick: (arr:Array<{ name: string, type: string }>, index: number) => void
-  handleDeleteClick: (arr: Array<{ name: string, type: string }>, index: number) => void
+  headers: Array<{ name: string, type: string ,isPrimary: boolean}>
+  handleUpdateClick: (arr:Array<{ name: string, type: string, isPrimary: boolean}>, index: number) => void
+  handleDeleteClick: (arr: Array<{ name: string, type: string, isPrimary: boolean}>, index: number) => void
 }
 
 interface TableState {
-  rowsData: Array<Array<{ name: string, type: string }>>;
+  rowsData: Array<Array<{ name: string, type: string, isPrimary: boolean }>>;
   currentPage: number;
   totalPages: number;
   pageSize: number;

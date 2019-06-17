@@ -23,8 +23,6 @@ class TablesDisplayerPage extends Component<ITablesDisplayerPageProps, ITablesDi
   }
 
   componentWillReceiveProps(nextProps: any, nextState :any) {
-    console.log(nextProps)
-
     return true
   }
 

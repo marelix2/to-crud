@@ -7,7 +7,7 @@ import './Rows.scss';
 const Rows: FunctionComponent<RowsProps> = (props) => {
 
   const data = props.rows.map((row) => {
-    return [...row, { name: 'actions', type: 'actions' }]
+    return [...row, { name: 'actions', type: 'actions', isPrimary: false }]
   })
   const convertedRows = data.map((array, index) => (
     <Row
@@ -28,9 +28,9 @@ const Rows: FunctionComponent<RowsProps> = (props) => {
 };
 
 interface RowsProps {
-  rows: Array<Array<{ name: string, type: string }>>
-  onUpdateClick : (arr:  Array<{ name: string, type: string }>, index: number) => void
-  onDeleteClick : (arr:  Array<{ name: string, type: string }>, index: number) => void
+  rows: Array<Array<{ name: string, type: string, isPrimary: boolean }>>
+  onUpdateClick : (arr:  Array<{ name: string, type: string, isPrimary: boolean }>, index: number) => void
+  onDeleteClick : (arr:  Array<{ name: string, type: string, isPrimary: boolean  }>, index: number) => void
 }
 
 

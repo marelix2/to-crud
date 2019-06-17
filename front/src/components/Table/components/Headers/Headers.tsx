@@ -6,7 +6,7 @@ import './Headers.scss';
 
 const Headers: FunctionComponent<HeadersProps> = (props) => {
 
-  const cols = [ ...props.columns, {name: 'akcje', type: 'actions'}]
+  const cols = [ ...props.columns, {name: 'akcje', type: 'actions', isPrimary: false}]
   const headers = cols.map((column, index) => (
     <Col
       span={3}
@@ -14,7 +14,7 @@ const Headers: FunctionComponent<HeadersProps> = (props) => {
       className='field-header'
       
     >
-    {upperFirst(column.name)} 
+    {`${upperFirst(column.name)} ${column.isPrimary ? '(PK)' : ""}`} 
     </Col>
   ));
   return (
@@ -31,7 +31,7 @@ const Headers: FunctionComponent<HeadersProps> = (props) => {
 };
 
 interface HeadersProps {
-  columns: Array<{ name: string, type: string }>
+  columns: Array<{ name: string, type: string ,isPrimary: boolean}>
 }
 
 export default Headers;

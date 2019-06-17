@@ -44,14 +44,8 @@ setTimeout( () => {
             if (err) {
               return console.log(err.message);
             }
-            console.log(`dodano wiersz o id: ${this.lastID}`);
+            console.log(`dodano wiersz o id: ${i}`);
           });
     }
      db.close();
 },4000)
-
-
-// createQuery();
-// insertQuery();
-
-console.log(table);

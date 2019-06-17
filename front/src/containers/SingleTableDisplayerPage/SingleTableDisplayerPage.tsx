@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Icon } from 'antd';
+import { Button, Icon,notification } from 'antd';
 import { RouteComponentProps, Redirect } from 'react-router-dom';
 import ToDivider from '../../components/ToDivider/ToDivider';
 import Table from '../../components/Table/Table';
@@ -35,10 +35,12 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
 
   fetchTableHeaders = () => {
     axios.put(API.GET_TABLE_HEADERS, { tableName: this.state.tableName }).then((response: any) => {
+      console.log(response.data.headers)
       const headers = response.data.headers.map((header: any) => {
         return {
           name: header.name,
-          type: header.type
+          type: header.type,
+          isPrimary: header.isPrimary
         }
       })
       this.setState({ headers })
@@ -54,7 +56,8 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
           arr.push({ name: r[keys[i]], type: typeof r[keys[i]] })
         }
         return arr;
-      })
+      });
+
       this.setState({ rows })
     })
   }
@@ -63,7 +66,7 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
     this.props.history.push('/')
   }
 
-  handleUpdateClick = (arr: Array<{ name: string, type: string }>, index: number) => {
+  handleUpdateClick = (arr: Array<{ name: string, type: string , isPrimary: boolean}>, index: number) => {
     const {headers,tableName } =  this.state
 
     this.setState({
@@ -80,13 +83,13 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
   }
 
   handleInsertClick = () => {
-    const {headers,tableName, rows } =  this.state
+    const {headers,tableName } =  this.state
 
     this.setState({
       updateRow: {
         clicked: true,
         updating: false,
-        row: rows[0],
+        row: headers.map((h) => ({name: h.name, type: h.type, isPrimary: h.isPrimary})),
         rowIndex: 0,
         headers: headers,
         tableName: tableName
@@ -95,13 +98,17 @@ export default class SingleTableDisplayerPage extends Component<SingleTableDispl
 
   }
 
-  handleDeleteClick = (arr: Array<{ name: string, type: string }>, index: number) => {
+  handleDeleteClick = (arr: Array<{ name: string, type: string, isPrimary: boolean}>, index: number) => {
     const {tableName } =  this.state
     axios.delete(API.POST_TABLE_ROW, { data : {
       id: index,
       tableName: tableName
     }
   }).then((res) => {
+    res && notification.success({
+      message: `${res.data.msg}`,
+      description: `(»◡«)`
+    });
       this.fetchTableData()
   })
   }
@@ -154,14 +161,14 @@ interface SingleTableDisplayerPageProps extends RouteComponentProps<any> {
 
 interface SingleTableDisplayerPageState {
   tableName: string | undefined;
-  headers: Array<{ name: string, type: string }>
+  headers: Array<{ name: string, type: string, isPrimary: boolean }>
   rows: Array<Array<Field>>,
   updateRow: {
     clicked: boolean,
     updating: boolean,
     row: Array<Field>,
     rowIndex: number,
-    headers: Array<{ name: string, type: string }>
+    headers: Array<{ name: string, type: string, isPrimary: boolean }>
     tableName: string | undefined
   }
 }

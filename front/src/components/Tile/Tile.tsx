@@ -9,7 +9,7 @@ const Tile = (props: ITileProps) => {
   const cols = columns.map((column: Column, index: number) => {
     return (
       <div key={index}>
-        <div className='tile-col'>{column.name}: {column.type}</div>
+        <div className='tile-col'>{column.name}: {column.type}  {column.isPrimary ? "(PK)": ""}</div>
       </div>
     )
   })
@@ -32,6 +32,7 @@ const Tile = (props: ITileProps) => {
 };
 
 interface Column {
+  isPrimary: boolean;
   name: string;
   type: string;
 }

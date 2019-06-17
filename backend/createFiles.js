@@ -1,7 +1,6 @@
 const fs = require('fs');
 const LoremIpsum = require("lorem-ipsum").LoremIpsum;
 const args = process.argv.slice(2)
-console.log(args[0])
 
 const lorem = new LoremIpsum({
     sentencesPerParagraph: {
