@@ -26,7 +26,7 @@
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "express-routes-mapper": "^1.1.0",
-    "googleapis": "^34.0.0",
+    "googleapis": "^39.1.0",
     "http-status-codes": "^1.3.0",
     "lorem-ipsum": "^2.0.2",
     "md5": "^2.2.1",
